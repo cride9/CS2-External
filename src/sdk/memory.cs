@@ -12,7 +12,7 @@ namespace CSharp.src {
         ENGINE
     }
 
-    internal class memory {
+    public class memory {
 
         private static string[ ] Modules = new string[ ] { "client.dll", "engine2.dll" };
         public static string _( int number ) => ( ( $"0x{number:X}" ) );

@@ -20,8 +20,14 @@ namespace CSharp.src.classes {
             memory.Read<bool>( uBase, CCSPlayerController.m_bPawnHasDefuser );
         public int GetFlags( ) =>
             memory.Read<int>( uBase, C_BaseEntity.m_fFlags );
+        public bool IsValid( ) => 
+            uBase != 0;
+
 
         internal string ToString( ) =>
             $"0x{uBase:X}";
+
+        public static long operator +( Pawn a1, long a2 ) =>
+            a1.uBase + a2;
     }
 }

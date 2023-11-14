@@ -1,4 +1,6 @@
-﻿using Memory;
+﻿using CSharp.src.classes;
+using engine;
+using Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,9 @@ namespace CSharp.src {
         public bool bStopThread = false;
         public static Thread Thread;
 
-        private static memory forceJump = new memory( $"client.dll+{memory._( client_dll.dwForceJump )}" );
+        private static memory forceJump = new memory( DLL.CLIENT, client_dll.dwForceJump );
 
-        public bunnyhop() =>
-            Thread = new Thread( BunnyHop ) { Priority = ThreadPriority.Highest };
+        public bunnyhop() => Thread = new Thread( BunnyHop ) { Priority = ThreadPriority.Highest };
 
         public void Run(bool bCurrentCheckbox) {
 
@@ -33,7 +34,7 @@ namespace CSharp.src {
             while ( true ) {
 
                 Thread.Sleep( 1 );
-                if ( FN.GetAsyncKeyState( Keys.Space ) >= 0 )
+                if ( FN.GetAsyncKeyState( Keys.Space ) >= 0 || !G.uLocalPlayerPawn.IsValid())
                     continue;
 
                 int iFlags = G.uLocalPlayerPawn.GetFlags( );

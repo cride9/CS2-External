@@ -98,6 +98,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\classes\Weapon.cs" />
+    <Compile Include="src\features\triggerbot.cs" />
     <Compile Include="src\sdk\config.cs" />
     <Compile Include="src\sdk\gameVariables.cs" />
     <Compile Include="MainWindow.cs">
@@ -112,7 +114,7 @@
     <Compile Include="src\sdk\memory.cs" />
     <Compile Include="vsfiles\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\bunnyhop.cs" />
+    <Compile Include="src\features\bunnyhop.cs" />
     <Compile Include="src\classes\Pawn.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

@@ -18,27 +18,33 @@ namespace CSharp.src.sdk {
 
         public static void SaveConfig() {
 
+            if ( MessageBox.Show( "Are you sure?", "Saving", MessageBoxButtons.OKCancel ) != DialogResult.OK )
+                return;
+
             /* Get Every element from groupboxes and main window */
             using ( StreamWriter sw = new StreamWriter( @"C:/CSExternal/config.ini", false, Encoding.UTF8 ) ) {
 
-                sw.WriteLine( "[Checkboxes]" );
-                foreach ( var item in checkBoxes ) 
-                    sw.WriteLine( $"{item.Name} = {item.Checked.ToString( ).ToLower( )}" );
+            sw.WriteLine( "[Checkboxes]" );
+            foreach ( var item in checkBoxes ) 
+                sw.WriteLine( $"{item.Name} = {item.Checked.ToString( ).ToLower( )}" );
 
-                sw.WriteLine( "[Sliders]" );
-                foreach ( var item in trackBars )
-                    sw.WriteLine( $"{item.Name} = {item.Value}" );
+            sw.WriteLine( "[Sliders]" );
+            foreach ( var item in trackBars )
+                sw.WriteLine( $"{item.Name} = {item.Value}" );
             }
         }
 
         public static void LoadConfig() {
 
-            using (StreamReader sr = new StreamReader( "C:/CSExternal/config.ini", Encoding.UTF8 ) ) {
+            if ( MessageBox.Show( "Are you sure?", "Loading", MessageBoxButtons.OKCancel ) != DialogResult.OK )
+                return;
+
+            using ( StreamReader sr = new StreamReader( "C:/CSExternal/config.ini", Encoding.UTF8 ) ) {
 
                 int bReachedType = -1;
-                while (!sr.EndOfStream) {
+                while ( !sr.EndOfStream ) {
 
-                    string szLine = sr.ReadLine();
+                    string szLine = sr.ReadLine( );
 
                     // if new type reached read new line
                     if ( szLine.Contains( "[" ) ) {
@@ -50,10 +56,10 @@ namespace CSharp.src.sdk {
                             return;
                     }
 
-                    string szName = szLine.Split( '=' )[0].Trim();
-                    string szValue = szLine.Split( '=' )[ 1 ].Trim();
+                    string szName = szLine.Split( '=' )[ 0 ].Trim( );
+                    string szValue = szLine.Split( '=' )[ 1 ].Trim( );
 
-                    if ( bReachedType == ( int )SECTION.CHECKBOXES ) 
+                    if ( bReachedType == ( int )SECTION.CHECKBOXES )
                         checkBoxes.Find( it => it.Name == szName ).CheckState = bool.Parse( szValue ) == true ? CheckState.Checked : CheckState.Unchecked;
                     else if ( bReachedType == ( int )SECTION.TRACKBARS )
                         trackBars.Find( it => it.Name == szName ).Value = int.Parse( szValue );
