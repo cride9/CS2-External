@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using client;
 using CSharp.src;
 using CSharp.src.classes;
+using CSharp.src.sdk;
 using Memory;
 
 namespace CSharp {
@@ -29,7 +30,8 @@ namespace CSharp {
                 iPid = Memory.GetProcIdFromName( "cs2" );
 
             Memory.OpenProcess( iPid );
-            ThreadScheduler( );
+            GetComponents( );
+            config.Initialize( Controls );
 
             Timer.Tick += Features;
             Timer.Start( );
@@ -37,12 +39,10 @@ namespace CSharp {
 
         private void Features( object sender, EventArgs e ) {
 
-            Bhop.Run( checkBox1.Checked );
-            label1.Text = $"{ memory.Read<long>( DLL.CLIENT, client_dll.dwForceJump ) }";
-            label2.Text = $"{ ( memory.Read<long>( G.uLocalPlayerPawn.uBase, C_BaseEntity.m_fFlags )) }";
+            Bhop.Run( bBunnyHop.Checked );
         }
 
-        private void ThreadScheduler( ) {
+        private void GetComponents( ) {
 
             GetStaticComponents( );
             GetDynamicComponents( );
@@ -61,6 +61,18 @@ namespace CSharp {
             /* Those are changing each game */
             G.uLocalPlayerController = memory.Read<long>( DLL.CLIENT, client_dll.dwLocalPlayerController );
             G.uLocalPlayerPawn = new Pawn(FN.GetPlayerPawn( memory.Read<long>( G.uLocalPlayerController + CCSPlayerController.m_hPlayerPawn ) ) );
+        }
+
+        private void SaveConfig( object sender, EventArgs e ) {
+
+            if ( MessageBox.Show( "Are you sure?", "Saving", MessageBoxButtons.OKCancel ) == DialogResult.OK )
+                config.SaveConfig( );
+        }
+
+        private void LoadConfig( object sender, EventArgs e ) {
+
+            if ( MessageBox.Show( "Are you sure?", "Loading", MessageBoxButtons.OKCancel ) == DialogResult.OK )
+                config.LoadConfig( );
         }
     }
 
