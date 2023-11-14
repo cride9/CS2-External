@@ -13,6 +13,8 @@ namespace CSharp.src {
         public bool bStopThread = false;
         public static Thread Thread;
 
+        private static memory forceJump = new memory( $"client.dll+{memory._( client_dll.dwForceJump )}" );
+
         public bunnyhop() =>
             Thread = new Thread( BunnyHop ) { Priority = ThreadPriority.Highest };
 
@@ -40,13 +42,13 @@ namespace CSharp.src {
                 if ( bIsOnGround ) {
 
                     Thread.Sleep( 1 );
-                    G.GetMemory( ).WriteMemory( $"client.dll+{FN._( client_dll.dwForceJump )}", "int", "65536" );
+                    forceJump.Write<int>( 65536 );
                     Thread.Sleep( 20 );
-                    G.GetMemory( ).WriteMemory( $"client.dll+{FN._( client_dll.dwForceJump )}", "int", "256" );
+                    forceJump.Write<int>( 256 );
                 }
                 else {
 
-                    G.GetMemory( ).WriteMemory( $"client.dll+{FN._( client_dll.dwForceJump )}", "int", "256" );
+                    forceJump.Write<int>( 256 );
                 }
             }
         }

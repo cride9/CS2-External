@@ -38,8 +38,8 @@ namespace CSharp {
         private void Features( object sender, EventArgs e ) {
 
             Bhop.Run( checkBox1.Checked );
-            label1.Text = $"{ FN.ReadMemory( DLL.CLIENT, client_dll.dwForceJump ) }";
-            label2.Text = $"{ ( FN.ReadMemory<UInt32>( G.uLocalPlayerPawn.uBase, C_BaseEntity.m_fFlags )) }";
+            label1.Text = $"{ memory.Read<long>( DLL.CLIENT, client_dll.dwForceJump ) }";
+            label2.Text = $"{ ( memory.Read<long>( G.uLocalPlayerPawn.uBase, C_BaseEntity.m_fFlags )) }";
         }
 
         private void ThreadScheduler( ) {
@@ -51,16 +51,16 @@ namespace CSharp {
         private void GetStaticComponents( ) {
 
             /* Main components */
-            G.uEntityList = FN.ReadMemory( DLL.CLIENT, client_dll.dwEntityList );
-            G.uGlobalVars = FN.ReadMemory( DLL.CLIENT, client_dll.dwGlobalVars );
-            G.uViewMatrix = FN.ReadMemory( DLL.CLIENT, client_dll.dwViewMatrix );
+            G.uEntityList = memory.Read<long>( DLL.CLIENT, client_dll.dwEntityList );
+            G.uGlobalVars = memory.Read<long>( DLL.CLIENT, client_dll.dwGlobalVars );
+            G.uViewMatrix = memory.Read<long>( DLL.CLIENT, client_dll.dwViewMatrix );
         }
 
         private void GetDynamicComponents() {
 
             /* Those are changing each game */
-            G.uLocalPlayerController = FN.ReadMemory( DLL.CLIENT, client_dll.dwLocalPlayerController );
-            G.uLocalPlayerPawn = new Pawn(FN.GetPlayerPawn( FN.ReadMemory( G.uLocalPlayerController + CCSPlayerController.m_hPlayerPawn ) ) );
+            G.uLocalPlayerController = memory.Read<long>( DLL.CLIENT, client_dll.dwLocalPlayerController );
+            G.uLocalPlayerPawn = new Pawn(FN.GetPlayerPawn( memory.Read<long>( G.uLocalPlayerController + CCSPlayerController.m_hPlayerPawn ) ) );
         }
     }
 

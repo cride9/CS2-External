@@ -11,20 +11,17 @@ namespace CSharp.src.classes {
         public Pawn( long _ ) => uBase = _;
 
         public int GetHealth() =>
-           ( int )FN.ReadMemory( uBase, C_BaseEntity.m_iHealth );
+            memory.Read<int>( uBase, C_BaseEntity.m_iHealth );
         public int GetArmor( ) =>
-            ( int )FN.ReadMemory( uBase, CCSPlayerController.m_iPawnArmor );
+            memory.Read<int>( uBase, CCSPlayerController.m_iPawnArmor );
         public bool IsAlive( ) =>
-            FN.ReadMemory<bool>( uBase, CCSPlayerController.m_bPawnIsAlive );
+            memory.Read<bool>( uBase, CCSPlayerController.m_bPawnIsAlive );
         public bool HasDefuser( ) =>
-            FN.ReadMemory<bool>( uBase, CCSPlayerController.m_bPawnHasDefuser );
+            memory.Read<bool>( uBase, CCSPlayerController.m_bPawnHasDefuser );
         public int GetFlags( ) =>
-            FN.ReadMemory<int>( uBase, C_BaseEntity.m_fFlags );
+            memory.Read<int>( uBase, C_BaseEntity.m_fFlags );
 
-
-        internal string ToString( ) {
-
-            return $"0x{uBase:X}";
-        }
+        internal string ToString( ) =>
+            $"0x{uBase:X}";
     }
 }
